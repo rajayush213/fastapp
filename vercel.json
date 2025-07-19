@@ -1,15 +1,26 @@
 {
     "version": 2,
-    "builds": [
-        {
-            "src": "./app.py",
-            "use": "@vercel/python"
+    "builds": {
+        "api/chat_stream_internal.py": {
+            "runtime": "vercel-python@0.23.0",
+            "memory": 512,
+            "maxDuration": 30
+        },
+        "api/chat_stream_edge.ts": {
+            "runtime": "nodejs18.x",
+            "memory": 128,
+            "maxDuration": 0
         }
-    ],
+    },
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/app.py"
-        }
-    ]
+    {
+      "src": "/api/chat_stream_internal",
+      "dest": "/api/chat_stream_internal.py"
+    },
+    {
+      "src": "/api/chat_stream_edge",
+      "dest": "/api/chat_stream_edge.ts"
+    }
+  ]
+
 }
